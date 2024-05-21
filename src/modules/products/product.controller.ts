@@ -48,3 +48,13 @@ export const updateProduct = async (req: Request, res: Response, next: NextFunct
     next(err);
   }
 };
+
+export const deleteProduct = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const product = await productModel.findByIdAndDelete(req.params.productId);
+    if (!product) return res.status(404).json({ success: false, message: 'Product not found' });
+    res.status(200).json({ success: true, message: 'Product deleted successfully!', data: null });
+  } catch (err) {
+    next(err);
+  }
+};
