@@ -21,10 +21,24 @@ export const createProduct = async (req: Request, res: Response, next: NextFunct
 };
 
 export const getProducts = async (req: Request, res: Response, next: NextFunction) => {
+  const { searchTerm } = req.query;
+  let products;
+
   try {
-    const products = await productModel.find();
-    res.status(200).json({ success: true, message: 'Products fetched successfully!', data: products });
-  } catch (err) {
+   if (searchTerm) {
+      products = await productModel.find({
+        $or: [
+          { name: new RegExp(searchTerm as string, 'i') },
+          { category: new RegExp(searchTerm as string, 'i') },
+          { tags: { $in: [new RegExp(searchTerm as string, 'i')] } }
+        ]
+      });
+      res.status(200).json({ success: true, message: `Products matching search term '${searchTerm}' fetched successfully!`, data: products });
+    } else {
+      products = await productModel.find();
+      res.status(200).json({ success: true, message: 'Products fetched successfully!', data: products });
+    }
+  }   catch (err) {
     next(err);
   }
 };
