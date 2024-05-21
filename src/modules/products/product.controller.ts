@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import {productValidationSchema} from '../../../Utils/ErrorValidation'
 import productModel from './product.model';
+import { CLIENT_RENEG_LIMIT } from 'tls';
 export const createProduct = async (req: Request, res: Response, next: NextFunction) => {
   const validationResult = productValidationSchema.safeParse(req.body);
 
@@ -22,6 +23,16 @@ export const getProducts = async (req: Request, res: Response, next: NextFunctio
   try {
     const products = await productModel.find();
     res.status(200).json({ success: true, message: 'Products fetched successfully!', data: products });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const getProductById = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const product = await productModel.findById(req.params.productId);
+    if (!product) return res.status(404).json({ success: false, message: 'Product not found' });
+    res.status(200).json({ success: true, message: 'Product fetched successfully!', data: product });
   } catch (err) {
     next(err);
   }

@@ -38,3 +38,17 @@ exports.getProducts = (req, res, next) => __awaiter(void 0, void 0, void 0, func
         next(err);
     }
 });
+exports.getProductById = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log(req.params);
+    try {
+        console.log(req.params);
+        const product = yield product_model_1.default.findById(req.params.productId);
+        if (!product)
+            return res.status(404).json({ success: false, message: 'Product not found' });
+        res.status(200).json({ success: true, message: 'Product fetched successfully!', data: product });
+    }
+    catch (err) {
+        console.log(err);
+        next(err);
+    }
+});
