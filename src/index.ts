@@ -1,11 +1,11 @@
 import { Request, Response } from "express";
+import productRoutes from '../src/modules/products/product.route';
 
 const mongoose = require('mongoose');
 const express = require('express');
 const dotenv = require('dotenv')
 dotenv.config()
 const cors = require('cors');
-// const router = require('./routes');
 const PORT = process.env.PORT || 8000;
 const app = express();
 app.use(express.json());
@@ -32,11 +32,12 @@ async function main() {
 
 
 // Router 
+app.use('/api/products', productRoutes);
 
 // app.use('/', router);
-app.get('/', (req:Request, res:Response) => {
-    res.send('Hello World!')
-  })
+// app.get('/', (req:Request, res:Response) => {
+//     res.send('Hello World!')
+//   })
 
 app.listen(PORT, () => {
     console.log('=> Server running on', PORT);

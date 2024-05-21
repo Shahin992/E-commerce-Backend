@@ -8,13 +8,16 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
+const product_route_1 = __importDefault(require("../src/modules/products/product.route"));
 const mongoose = require('mongoose');
 const express = require('express');
 const dotenv = require('dotenv');
 dotenv.config();
 const cors = require('cors');
-// const router = require('./routes');
 const PORT = process.env.PORT || 8000;
 const app = express();
 app.use(express.json());
@@ -37,11 +40,11 @@ function main() {
     });
 }
 // Router 
-app.use('/api/products', productRoutes);
+app.use('/api/products', product_route_1.default);
 // app.use('/', router);
-app.get('/', (req, res) => {
-    res.send('Hello World!');
-});
+// app.get('/', (req:Request, res:Response) => {
+//     res.send('Hello World!')
+//   })
 app.listen(PORT, () => {
     console.log('=> Server running on', PORT);
 });
