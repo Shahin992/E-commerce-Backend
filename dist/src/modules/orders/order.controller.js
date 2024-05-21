@@ -40,3 +40,20 @@ exports.createOrder = (req, res, next) => __awaiter(void 0, void 0, void 0, func
         next(err);
     }
 });
+exports.getOrders = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const { email } = req.query;
+    let orders;
+    try {
+        if (email) {
+            const orders = yield order_model_1.default.find({ email });
+            res.status(200).json({ success: true, message: 'Orders fetched successfully for user email!', data: orders });
+        }
+        else {
+            orders = yield order_model_1.default.find();
+            res.status(200).json({ success: true, message: 'Orders fetched successfully!', data: orders });
+        }
+    }
+    catch (err) {
+        next(err);
+    }
+});

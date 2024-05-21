@@ -32,3 +32,21 @@ export const createOrder = async (req: Request, res: Response, next: NextFunctio
     }
   };
   
+
+  export const getOrders = async (req: Request, res: Response, next: NextFunction) => {
+    const { email } = req.query;
+    let orders;
+    try {
+      if(email ){
+        const orders = await orderModel.find({ email });
+        res.status(200).json({ success: true, message: 'Orders fetched successfully for user email!', data: orders });
+
+      }
+      else {
+         orders = await orderModel.find();
+        res.status(200).json({ success: true, message: 'Orders fetched successfully!', data: orders });
+      }
+    } catch (err) {
+      next(err);
+    }
+  };

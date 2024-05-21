@@ -13,5 +13,5 @@ const OrderSchema = new mongoose_1.Schema({
     productId: { type: mongoose_1.default.Schema.Types.ObjectId, required: true, ref: 'Product' },
     price: { type: Number, required: true },
     quantity: { type: Number, required: true }
-});
+}, { versionKey: false, timestamps: true });
 exports.default = mongoose_1.default.model('Order', OrderSchema);
