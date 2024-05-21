@@ -13,6 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const product_route_1 = __importDefault(require("../src/modules/products/product.route"));
+const order_route_1 = __importDefault(require("../src/modules/orders/order.route"));
 const mongoose = require('mongoose');
 const express = require('express');
 const dotenv = require('dotenv');
@@ -31,7 +32,7 @@ function main() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             mongoose.set('strictPopulate', false);
-            yield mongoose.connect(`mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASS}@cluster0.c60ctk1.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`);
+            yield mongoose.connect(`mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASS}@cluster0.c60ctk1.mongodb.net/ecommerce?retryWrites=true&w=majority&appName=Cluster0`);
             console.log("=> Connected to DB");
         }
         catch (error) {
@@ -41,6 +42,7 @@ function main() {
 }
 // Router 
 app.use('/api/products', product_route_1.default);
+app.use('/api/orders', order_route_1.default);
 // app.use('/', router);
 // app.get('/', (req:Request, res:Response) => {
 //     res.send('Hello World!')

@@ -11,11 +11,11 @@ const mongoose_1 = __importStar(require("mongoose"));
 const VariantSchema = new mongoose_1.Schema({
     type: { type: String, required: true },
     value: { type: String, required: true }
-});
+}, { versionKey: false });
 const InventorySchema = new mongoose_1.Schema({
     quantity: { type: Number, required: true },
     inStock: { type: Boolean, required: true }
-});
+}, { versionKey: false });
 const ProductSchema = new mongoose_1.Schema({
     name: { type: String, required: true },
     description: { type: String, required: true },
@@ -24,5 +24,5 @@ const ProductSchema = new mongoose_1.Schema({
     tags: { type: [String], required: true },
     variants: { type: [VariantSchema], required: true },
     inventory: { type: InventorySchema, required: true }
-});
+}, { versionKey: false, timestamps: true });
 exports.default = mongoose_1.default.model('Product', ProductSchema);

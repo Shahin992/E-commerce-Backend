@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import productRoutes from '../src/modules/products/product.route';
-
+import orderRoutes from '../src/modules/orders/order.route';
 const mongoose = require('mongoose');
 const express = require('express');
 const dotenv = require('dotenv')
@@ -22,7 +22,7 @@ main().catch(err => console.log(err));
 async function main() {
     try {
         mongoose.set('strictPopulate', false);
-        await mongoose.connect(`mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASS}@cluster0.c60ctk1.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`);
+        await mongoose.connect(`mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASS}@cluster0.c60ctk1.mongodb.net/ecommerce?retryWrites=true&w=majority&appName=Cluster0`);
         console.log("=> Connected to DB");
     } catch (error) {
         console.log(error);
@@ -33,6 +33,8 @@ async function main() {
 
 // Router 
 app.use('/api/products', productRoutes);
+app.use('/api/orders', orderRoutes);
+
 
 // app.use('/', router);
 // app.get('/', (req:Request, res:Response) => {

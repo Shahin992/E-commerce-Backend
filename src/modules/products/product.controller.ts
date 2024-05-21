@@ -1,7 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import {productValidationSchema} from '../../../Utils/ErrorValidation'
 import productModel from './product.model';
-import { CLIENT_RENEG_LIMIT } from 'tls';
 
 
 export const createProduct = async (req: Request, res: Response, next: NextFunction) => {
