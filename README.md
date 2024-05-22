@@ -2,6 +2,8 @@
 
 # Live server URL
 - https://ecommerce-backend-beta-eight.vercel.app
+  - Product Endpoint /api/products
+  - Order EndPoint /api/orders
 
 ## Setup
 
