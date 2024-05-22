@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.orderValidationSchema = exports.productValidationSchema = void 0;
 const zod_1 = require("zod");
 const productValidationSchema = zod_1.z.object({
     name: zod_1.z.string().min(1, "Name is required"),

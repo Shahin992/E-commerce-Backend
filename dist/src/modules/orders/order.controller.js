@@ -12,10 +12,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.getOrders = exports.createOrder = void 0;
 const ErrorValidation_1 = require("../../../Utils/ErrorValidation");
 const product_model_1 = __importDefault(require("../products/product.model"));
 const order_model_1 = __importDefault(require("./order.model"));
-exports.createOrder = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+// Add order controller //  
+const createOrder = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    // validation with zod //
     const validationResult = ErrorValidation_1.orderValidationSchema.safeParse(req.body);
     if (!validationResult.success) {
         const error = validationResult.error;
@@ -23,31 +26,36 @@ exports.createOrder = (req, res, next) => __awaiter(void 0, void 0, void 0, func
     }
     try {
         const { productId, quantity } = req.body;
-        const product = yield product_model_1.default.findById(productId);
+        const product = yield product_model_1.default.findById(productId); // find product from productModel
         if (!product)
             return res.status(404).json({ success: false, message: 'Product not found' });
+        // Insufficient quantity // 
         if (product.inventory.quantity < quantity) {
             return res.status(400).json({ success: false, message: 'Insufficient quantity available in inventory' });
         }
-        product.inventory.quantity -= quantity;
-        product.inventory.inStock = product.inventory.quantity > 0;
-        yield product.save();
-        const order = new order_model_1.default(req.body);
-        yield order.save();
+        product.inventory.quantity -= quantity; // reduce product quantity by orders quantity
+        product.inventory.inStock = product.inventory.quantity > 0; // inStock true when quantiy getter than 0
+        yield product.save(); // save the updated  quantity & instock by order
+        const order = new order_model_1.default(req.body); // create order
+        yield order.save(); // save to the ordermodel
         res.status(201).json({ success: true, message: 'Order created successfully!', data: order });
     }
     catch (err) {
         next(err);
     }
 });
-exports.getOrders = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+exports.createOrder = createOrder;
+// get order controller // 
+const getOrders = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const { email } = req.query;
     let orders;
     try {
+        // Get Orders by email //
         if (email) {
             const orders = yield order_model_1.default.find({ email });
             res.status(200).json({ success: true, message: 'Orders fetched successfully for user email!', data: orders });
         }
+        // Get all order //
         else {
             orders = yield order_model_1.default.find();
             res.status(200).json({ success: true, message: 'Orders fetched successfully!', data: orders });
@@ -57,3 +65,4 @@ exports.getOrders = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
         next(err);
     }
 });
+exports.getOrders = getOrders;
