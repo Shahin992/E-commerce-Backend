@@ -44,9 +44,9 @@ function main() {
 app.use('/api/products', product_route_1.default);
 app.use('/api/orders', order_route_1.default);
 // app.use('/', router);
-// app.get('/', (req:Request, res:Response) => {
-//     res.send('Hello World!')
-//   })
+app.get('/', (req, res) => {
+    res.send('E-commerce Server is Running');
+});
 app.listen(PORT, () => {
     console.log('=> Server running on', PORT);
 });

@@ -37,9 +37,9 @@ app.use('/api/orders', orderRoutes);
 
 
 // app.use('/', router);
-// app.get('/', (req:Request, res:Response) => {
-//     res.send('Hello World!')
-//   })
+app.get('/', (req:Request, res:Response) => {
+    res.send('E-commerce Server is Running')
+  })
 
 app.listen(PORT, () => {
     console.log('=> Server running on', PORT);
